@@ -1,4 +1,4 @@
-package com.microservices.comments.controller;
+package com.microservices.comments.controller.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 @ControllerAdvice
-public class ExceptionController {
+public class GlobalExceptionHandler {
     
     @ExceptionHandler(value = Exception.class)
     public ResponseEntity<HttpStatus> handleAll(){
