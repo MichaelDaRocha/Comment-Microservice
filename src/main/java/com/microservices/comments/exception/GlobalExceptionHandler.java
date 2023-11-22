@@ -1,4 +1,4 @@
-package com.microservices.comments.controller.exception;
+package com.microservices.comments.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
