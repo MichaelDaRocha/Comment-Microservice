@@ -16,52 +16,37 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.microservices.comments.model.Comment;
-import com.microservices.comments.repository.CommentRepository;
+import com.microservices.comments.service.CommentService;
 
 @RestController
 @RequestMapping("/api")
 public class CommentController {
 
     @Autowired
-    CommentRepository mongo;
+    CommentService commentService;
 
     @GetMapping
     public ResponseEntity<List<Comment>> getComment(@RequestParam(required = false) Optional<String> id){
-        try{
-            List<Comment> res;
-
-            if(id.isPresent()){
-                res = new ArrayList<Comment>();
-                res.add(mongo.findById(id.get()).get());
-            } else{
-                res = mongo.findAll();
-            }
-            
-            return new ResponseEntity<List<Comment>>(res, HttpStatus.OK);
-        
-        } catch(Exception err){
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        List<Comment> res;
+        if(id.isPresent()){
+            res = new ArrayList<Comment>();
+            res.add(commentService.findById(id.get()));
+        } else{
+            res = commentService.findAll();
         }
+
+        return new ResponseEntity<List<Comment>>(res, HttpStatus.OK);
     }
 
     @PostMapping
     public ResponseEntity<HttpStatus> postComment(@RequestBody Comment c){
-        try{
-            mongo.save(c);
-        } catch(Exception err){
-            return new ResponseEntity<HttpStatus>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        commentService.save(c);
         return new ResponseEntity<HttpStatus>(HttpStatus.OK);
     }
 
     @DeleteMapping
     public ResponseEntity<HttpStatus> patchComment(@RequestParam String id){
-        try{
-            mongo.deleteById(id);
-        } catch(Exception err){
-            return new ResponseEntity<HttpStatus>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-
+        commentService.delete(id);
         return new ResponseEntity<HttpStatus>(HttpStatus.OK);
     }
 }

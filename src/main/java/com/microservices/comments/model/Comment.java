@@ -1,10 +1,5 @@
 package com.microservices.comments.model;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.TimeZone;
-
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -24,16 +19,7 @@ public class Comment {
         this.posterName = posterName;
         this.msg = msg; 
         this.project = project;
-
-        if(postTime == null){
-            // https://stackoverflow.com/questions/3914404/how-to-get-current-moment-in-iso-8601-format-with-date-hour-and-minute
-            TimeZone tz = TimeZone.getTimeZone("UTC");
-            DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm'Z'");
-            df.setTimeZone(tz);
-            this.postTime = df.format(new Date());
-        } else{
-            this.postTime = postTime;
-        }
+        this.postTime = postTime;
     }
 
     public String getId(){ return _id; }
